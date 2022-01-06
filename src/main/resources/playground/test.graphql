@@ -1,0 +1,9 @@
+query{
+    me {
+        name
+        friends {
+            id
+            name
+        }
+    }
+}

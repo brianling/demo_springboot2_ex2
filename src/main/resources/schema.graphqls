@@ -1,0 +1,139 @@
+directive @uppercase on FIELD_DEFINITION
+
+#directive @cacheControl(
+#    maxAge: Int
+#    scope: CacheControlScope
+#) on FIELD_DEFINITION | OBJECT | INTERFACE
+#
+#enum CacheControlScope {
+#    PUBLIC
+#    PRIVATE
+#}
+
+# The `Upload` scalar type represents a file upload.
+#scalar Upload
+
+scalar NonNegativeInt
+scalar NonNegativeIntScalar
+
+# 高度單位
+enum HeightUnit {
+    # 公尺
+    METRE
+    # 公分
+    CENTIMETRE
+    # 英尺 (1 英尺 = 30.48 公分)
+    FOOT
+}
+
+# 重量單位
+enum WeightUnit {
+    # 公斤
+    KILOGRAM
+    # 公克
+    GRAM
+    # 磅 (1 磅 = 0.45359237 公斤)
+    POUND
+}
+
+# 貼文
+type Post {
+    # 識別碼
+    id: ID!
+    # 作者
+    author: User
+    # 標題
+    title: String
+    # 內容
+    content: String
+    # 建立時間
+    createdAt: String
+    # 按讚者
+    likeGivers: [User]
+}
+
+
+
+# 使用者
+type User {
+    # 識別碼
+    id: ID!
+    # 帳號
+    email: String!
+    # 名字
+    name: String @uppercase
+    # 年齡
+    age: NonNegativeInt
+    # 身高
+    height(unit: HeightUnit = CENTIMETRE): Float
+    # 體重
+    weight(unit: WeightUnit = KILOGRAM): Float @deprecated (reason: "It's secret")
+    # 朋友
+    friends: [User]
+    # 貼文
+    posts: [Post]
+    # 生日 ( ISO 格式)
+    birthDay: String
+}
+
+type Query {
+    # 測試用 Hello World
+    hello: String
+    # 目前使用者
+    me: User
+    # 特定使用者
+    user(name: String!): User
+    # 所有使用者
+    users: [User]
+
+    animal(name: String): Animal
+    animals: [Animal]
+
+    search(contains: String!): [Result]
+}
+
+input AddPostInput {
+    title: String!
+    content: String
+}
+
+# Mutation 定義
+type Mutation {
+    "新增貼文"
+    addPost(title: String!, content: String!): Post
+    "新增貼文 Input Object"
+    addPost(input: AddPostInput): Post
+    "貼文按讚 (收回讚)"
+    likePost(postId: ID!): Post
+}
+
+interface Animal {
+    name: String
+}
+
+type Bird implements Animal {
+    name: String
+    "翅膀展開長度"
+    wingSpanLength: Int
+}
+
+type Monkey implements Animal {
+    name: String
+    "手臂展開長度"
+    armSpanLength: Int
+}
+
+type Book{
+    title: String
+}
+
+type Author{
+    name: String
+}
+
+union Result = Book | Author
+
+
+
+
+

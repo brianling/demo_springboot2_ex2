@@ -1,0 +1,45 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.9-SNAPSHOT'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //GraphQL
+    implementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter', version: '8.0.0'
+    //GraphIQL
+    implementation group: 'com.graphql-java-kickstart', name: 'graphiql-spring-boot-starter', version: '8.0.0'
+    //Playground
+    implementation group: 'com.graphql-java-kickstart', name: 'playground-spring-boot-starter', version: '8.0.0'
+    //voyager
+    implementation group: 'com.graphql-java-kickstart', name: 'voyager-spring-boot-starter', version: '8.0.0'
+    //extended-scalars
+    implementation group: 'com.graphql-java', name: 'graphql-java-extended-scalars', version: '15.0.0'
+
+
+}
+
+test {
+    useJUnitPlatform()
+}

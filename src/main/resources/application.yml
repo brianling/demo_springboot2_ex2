@@ -1,0 +1,9 @@
+server:
+  port: 8092
+
+graphql:
+  tools:
+    schema-location-pattern: "**/*.graphqls"
+    schema-parser-options:
+          introspection-enabled: false
+#  extended-scalars: NonNegativeInt, Date, DateTime
